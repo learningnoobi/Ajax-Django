@@ -1,0 +1,40 @@
+body{
+    background-color: #15202b;
+}
+.input-form{
+    background: rgb(25, 39, 52);
+    border-radius: 25px;
+    border: none;
+    outline: 0;
+    padding: 13px;
+    width:80%;
+    filter:brightness(1.3);
+    color: wheat;
+}
+.input-form:focus{
+    border:1px solid #e0245e;
+  }
+
+  .submit{
+      outline:0  !important;
+      border: none;
+      background-color: #e0245e;
+      color: white;
+      padding: 9px 18px;
+      border-radius: 20px;
+  }
+  .submit:hover{
+    background-color: #c938ce;
+  }
+  .card-c{
+      border:none;
+      color:white;
+      background: rgb(203,105,196);
+      background: linear-gradient(90deg, rgba(203,105,196,1) 0%, rgba(241,93,132,1) 90%);
+  }
+.left{
+    color:wheat;
+    border: 2px solid #e90a51;
+    padding: 35px 20px;
+    border-radius: 5px;
+}

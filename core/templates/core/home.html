@@ -1,0 +1,95 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="row mt-4 d-flex justify-content-center">
+
+        <div class="col-lg-4 col-sm-9 left">
+             <h4 class="ml-2">Django & AJAX</h4>
+             <form class="mt-3" method="POST" id="form">
+            {% csrf_token %}
+            
+               {{form.as_p}}
+             
+                <button class="submit">Submit</button>
+            </form>
+        </div>
+        <div class="col-lg-6 col-sm-9" id="lists">
+      {% for stud in students %}
+            <div class="card mt-3 card-c" id="{{stud.id}}" >
+                <div class="card-body">
+                    <h5>{{stud.name}} </h5>
+                    <p>{{stud.hobby}}
+                        <span class="float-right">
+                            <a  id="{{stud.id}}"  class="btn btn-danger btn_del">X</a>
+                        </span>
+                    </p>
+                </div>
+            </div>      
+     
+        
+        {% endfor %}
+
+        </div>
+    </div>
+
+{% endblock content %}
+
+
+{% block script %}
+<script>
+$(document).ready(function(){
+    
+  $("form").on('submit',function(e){
+      e.preventDefault();
+      const lists = $("form").serialize()
+      $.ajax({
+            type:"POST",
+            url:"{% url 'home' %}",
+            data:lists,
+            dataType:"json",
+            success:function(res){
+             const instance = JSON.parse(res.instance)
+             console.log(instance)
+             const fields = instance[0].fields
+             const pk = instance[0].pk;
+             console.log(pk)
+      
+             $('#lists').prepend(`
+             <div class="card mt-3 card-c" id="${instance[0].pk}" >
+                <div class="card-body">
+                    <h5>${fields.name} </h5>
+                    <p>${fields.hobby}
+                        <span class="float-right">
+                            <a  id="${instance[0].pk}"  class="btn btn-danger btn_del">X</a>
+                        </span>
+                    </p>
+                </div>
+            </div>      
+             `)
+
+
+
+             $("#form")[0].reset()
+      } 
+      })
+      
+  })
+
+  //delete single
+  $(document).on('click','.btn_del',function(e){
+      e.preventDefault()
+      const id = this.id
+      const url = this.href
+      $.ajax({
+          url:`/delete/${id}`,
+          data:{},
+      })
+      $("#" + id).fadeOut(300)
+      console.log("deleted!")
+  })
+
+});
+</script>
+
+{% endblock script %}
