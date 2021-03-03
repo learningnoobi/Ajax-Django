@@ -16,9 +16,11 @@
         </div>
         <div class="col-lg-6 col-sm-9" id="lists">
       {% for stud in students %}
-            <div class="card mt-3 card-c" id="{{stud.id}}" >
+            <div class="card mt-3 card-c" id="{{stud.id}}" style="{% if stud.completed %} text-decoration:line-through;background: linear-gradient(
+            rgba(0, 0, 0, 0.2),rgba(0, 0, 0, 0.2)); {%endif%}">
                 <div class="card-body">
-                    <h5>{{stud.name}} </h5>
+                
+                    <h5 class="heading">{{stud.name}} </h5>
                     <p>{{stud.hobby}}
                         <span class="float-right">
                             <a  id="{{stud.id}}"  class="btn btn-danger btn_del">X</a>
@@ -40,7 +42,7 @@
 <script>
 $(document).ready(function(){
     
-  $("form").on('submit',function(e){
+  $(document).on('submit',"#form",function(e){
       e.preventDefault();
       const lists = $("form").serialize()
       $.ajax({
@@ -58,26 +60,21 @@ $(document).ready(function(){
              $('#lists').prepend(`
              <div class="card mt-3 card-c" id="${instance[0].pk}" >
                 <div class="card-body">
-                    <h5>${fields.name} </h5>
+                    <h5 class="heading" id="${instance[0].pk}">${fields.name} </h5>
                     <p>${fields.hobby}
                         <span class="float-right">
-                            <a  id="${instance[0].pk}"  class="btn btn-danger btn_del">X</a>
+                            <a id="${instance[0].pk}"  class="btn btn-danger btn_del">X</a>
                         </span>
                     </p>
                 </div>
             </div>      
              `)
-
-
-
-             $("#form")[0].reset()
+             $("#form")[0].reset();
       } 
       })
       
   })
-
-  //delete single
-  $(document).on('click','.btn_del',function(e){
+    $(document).on('click','a.btn_del',function(e){
       e.preventDefault()
       const id = this.id
       const url = this.href
@@ -88,6 +85,19 @@ $(document).ready(function(){
       $("#" + id).fadeOut(300)
       console.log("deleted!")
   })
+  //complete
+  $(document).on('click', '.card', function (e) {
+      e.preventDefault()
+       const id = this.id;
+
+       $.ajax({
+           url:`/complete/${id}`,
+           data:{},
+       });
+     $("#" + id).addClass("completed")
+    console.log('completed')
+  })
+
 
 });
 </script>

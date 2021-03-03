@@ -3,6 +3,8 @@ from .forms import StudentForm
 from .models import Student
 from django.http import JsonResponse,HttpResponse
 from django.core import serializers
+from django.forms.models import model_to_dict
+from django.views.generic import View 
 
 def home(request):
     form = StudentForm()
@@ -21,3 +23,9 @@ def delete_one(request,pk):
     list.delete()
     return redirect('/')
 
+def complete(request,pk):
+    list = Student.objects.get(id=pk)
+    list.completed = True
+    list.save()
+    return redirect('/')
+    

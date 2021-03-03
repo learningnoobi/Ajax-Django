@@ -32,9 +32,18 @@ body{
       background: rgb(203,105,196);
       background: linear-gradient(90deg, rgba(203,105,196,1) 0%, rgba(241,93,132,1) 90%);
   }
+h5:hover{
+      cursor: pointer;
+  }
 .left{
     color:wheat;
-    border: 2px solid #e90a51;
+    border: 2px solid #bb335e;
     padding: 35px 20px;
     border-radius: 5px;
+}
+.completed{
+    text-decoration:line-through;
+    background: linear-gradient(
+            rgba(0, 0, 0, 0.2),
+            rgba(0, 0, 0, 0.2)); 
 }
